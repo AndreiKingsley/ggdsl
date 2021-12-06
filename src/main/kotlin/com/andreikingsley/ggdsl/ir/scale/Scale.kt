@@ -13,20 +13,20 @@ sealed class NonPositionalScale: Scale {
     var legend: Legend? = null
 }
 
-class CategoricalPositionalScale<T>: PositionalScale() {
+class CategoricalPositionalScale<T: Any>: PositionalScale() {
     var categories: List<T> = listOf()
 }
 
-class ContinuousPositionalScale<T>: PositionalScale() {
+class ContinuousPositionalScale<T: Any>: PositionalScale() {
     var limits: Pair<T, T>? = null
 }
 
-class CategoricalNonPositionalScale<T, R>: PositionalScale() {
+class CategoricalNonPositionalScale<T: Any, R: Any>: PositionalScale() {
     var categories: List<T> = listOf()
     var values: List<R> = listOf()
 }
 
-class ContinuousNonPositionalScale<T, R>: PositionalScale() {
+class ContinuousNonPositionalScale<T: Any, R: Any>: PositionalScale() {
     var domainLimits: Pair<T, T>? = null
     var range: Pair<R, R>? = null
 }

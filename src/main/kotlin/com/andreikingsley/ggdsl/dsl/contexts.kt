@@ -19,7 +19,7 @@ open class Context {
         )
     }
 
-    infix fun<T: Any, R> NonPositionalAes<R>.mapTo(dataSource: DataSource<T>): NonPositionalMapping<R, T> {
+    infix fun<T: Any, R: Any> NonPositionalAes<R>.mapTo(dataSource: DataSource<T>): NonPositionalMapping<R, T> {
         mappings[this] = dataSource
         return NonPositionalMapping(
             this,
@@ -28,23 +28,23 @@ open class Context {
     }
 
     // TODO positional set
-    infix fun<T> NonPositionalAes<T>.setTo(value: T) {
+    infix fun<T: Any> NonPositionalAes<T>.setTo(value: T) {
         settings[this] = value!! // TODO()
     }
 
-    infix fun<T> PositionalMapping<T>.scaleContinuous(block: (ContinuousPositionalScale<T>.() -> Unit)) {
+    infix fun<T: Any> PositionalMapping<T>.scaleContinuous(block: (ContinuousPositionalScale<T>.() -> Unit)) {
         scales[this.aes] = ContinuousPositionalScale<T>().apply(block)
     }
 
-    infix fun<R, T> NonPositionalMapping<R, T>.scaleContinuous(block: (ContinuousNonPositionalScale<T, R>.() -> Unit)) {
+    infix fun<R: Any, T: Any> NonPositionalMapping<R, T>.scaleContinuous(block: (ContinuousNonPositionalScale<T, R>.() -> Unit)) {
         scales[this.aes] = ContinuousNonPositionalScale<T, R>().apply(block)
     }
 
-    infix fun<T> PositionalMapping<T>.scaleCategorical(block: (CategoricalPositionalScale<T>.() -> Unit)) {
+    infix fun<T: Any> PositionalMapping<T>.scaleCategorical(block: (CategoricalPositionalScale<T>.() -> Unit)) {
         scales[this.aes] = CategoricalPositionalScale<T>().apply(block)
     }
 
-    infix fun<R, T> NonPositionalMapping<R, T>.scaleCategorical(block: (CategoricalNonPositionalScale<T, R>.() -> Unit)) {
+    infix fun<R: Any, T: Any> NonPositionalMapping<R, T>.scaleCategorical(block: (CategoricalNonPositionalScale<T, R>.() -> Unit)) {
         scales[this.aes] = CategoricalNonPositionalScale<T, R>().apply(block)
     }
 
