@@ -5,28 +5,34 @@ import com.andreikingsley.ggdsl.ir.scale.guide.Legend
 
 sealed interface Scale
 
-sealed class PositionalScale: Scale {
+sealed interface DefaultScale : Scale
+
+class DefaultPositionalScale<DomainType : Any> : DefaultScale
+
+class DefaultNonPositionalScale<DomainType : Any, RangeType : Any> : DefaultScale
+
+sealed class PositionalScale : Scale {
     var axis: Axis? = null
 }
 
-sealed class NonPositionalScale: Scale {
+sealed class NonPositionalScale : Scale {
     var legend: Legend? = null
 }
 
-class CategoricalPositionalScale<T: Any>: PositionalScale() {
-    var categories: List<T> = listOf()
+class CategoricalPositionalScale<DomainType : Any> : PositionalScale() {
+    var categories: List<DomainType> = listOf()
 }
 
-class ContinuousPositionalScale<T: Any>: PositionalScale() {
-    var limits: Pair<T, T>? = null
+class ContinuousPositionalScale<DomainType : Any> : PositionalScale() {
+    var limits: Pair<DomainType, DomainType>? = null
 }
 
-class CategoricalNonPositionalScale<T: Any, R: Any>: PositionalScale() {
-    var categories: List<T> = listOf()
-    var values: List<R> = listOf()
+class CategoricalNonPositionalScale<DomainType : Any, RangeType : Any> : NonPositionalScale() {
+    var categories: List<DomainType> = listOf()
+    var values: List<RangeType> = listOf()
 }
 
-class ContinuousNonPositionalScale<T: Any, R: Any>: PositionalScale() {
-    var domainLimits: Pair<T, T>? = null
-    var range: Pair<R, R>? = null
+class ContinuousNonPositionalScale<DomainType : Any, RangeType : Any> : NonPositionalScale() {
+    var domainLimits: Pair<DomainType, DomainType>? = null
+    var range: Pair<RangeType, RangeType>? = null
 }

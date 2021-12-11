@@ -4,14 +4,14 @@ plugins {
 }
 
 group = "com.andreikingsley"
-version = "0.1.1"
+version = "0.1.2-dev"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
 }
 
 tasks {
@@ -28,7 +28,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "com.andreikingsley"
             artifactId = "ggdsl"
-            version = "0.1.1"
+            version = "0.1.2-dev"
 
             from(components["java"])
         }
