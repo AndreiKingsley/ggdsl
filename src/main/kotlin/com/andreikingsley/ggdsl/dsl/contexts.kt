@@ -4,6 +4,8 @@ import com.andreikingsley.ggdsl.ir.*
 import com.andreikingsley.ggdsl.ir.aes.*
 import com.andreikingsley.ggdsl.ir.scale.*
 
+// TODO internal
+
 open class BaseContext {
     var dataset: NamedData? = null
 
@@ -50,29 +52,52 @@ open class BaseContext {
         scales[this.aes] = CategoricalNonPositionalScale<T, R>().apply(block)
     }
 
-    /* TODO
-    infix fun Aes.scale(scale: Scale) {
-        scales[this] = scale
+    infix fun<T: Any> PositionalMapping<T>.scale(scale: PositionalScale<T>) {
+        scales[this.aes] = scale
     }
 
-     */
+    infix fun<T: Any, R: Any> NonPositionalMapping<T, R>.scale(scale: NonPositionalScale<T, R>) {
+        scales[this.aes] = scale
+    }
 
-    // TODO more
+    // TODO other????
     val x = X
     val y = Y
-
-    val size = SIZE
-    val color = COLOR
-
 }
 
-class LayerContext : BaseContext() {
+abstract class LayerContext : BaseContext() {
     fun copyFrom(other: BaseContext) {
-        dataset = other.dataset?.toMutableMap()
+        dataset = other.dataset?.toMutableMap() // TODO
         mappings = other.mappings.toMutableMap()
         settings = other.settings.toMutableMap()
         scales = other.scales.toMutableMap()
     }
+}
+
+class PointsContext: LayerContext(){
+    val size = SIZE
+    val color = COLOR
+    val alpha = ALPHA
+
+    // TODO
+    //val borderWidth = BORDER_WIDTH
+   // val borderColor = BORDER_COLOR
+}
+
+class LineContext: LayerContext(){
+    val width = WIDTH
+    val color = COLOR
+    val alpha = ALPHA
+}
+
+class BarsContext: LayerContext(){
+    val size = WIDTH
+    val color = COLOR
+    val alpha = ALPHA
+
+    // TODO
+    //val borderWidth = BORDER_WIDTH
+    //val borderColor = BORDER_COLOR
 }
 
 class PlotContext : BaseContext() {
