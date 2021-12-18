@@ -6,12 +6,6 @@ import kotlin.reflect.KType
 
 sealed interface Scale
 
-sealed interface DefaultScale : Scale
-
-class DefaultPositionalScale : DefaultScale
-
-class DefaultNonPositionalScale : DefaultScale
-
 sealed class PositionalScale<DomainType : Any> : Scale {
     //var axis: Axis<DomainType>? = null
 
@@ -24,6 +18,16 @@ sealed class NonPositionalScale<DomainType : Any, RangeType : Any> : Scale {
     abstract val domainType: KType
     abstract val rangeType: KType
 }
+
+sealed interface DefaultScale : Scale
+
+class DefaultPositionalScale<DomainType : Any>(override val domainType: KType) : PositionalScale<DomainType>(),
+    DefaultScale
+
+class DefaultNonPositionalScale<DomainType : Any, RangeType : Any>(
+    override val domainType: KType,
+    override val rangeType: KType
+) : NonPositionalScale<DomainType, RangeType>(), DefaultScale
 
 class CategoricalPositionalScale<DomainType : Any>(override val domainType: KType) : PositionalScale<DomainType>() {
     var categories: List<DomainType> = listOf()
