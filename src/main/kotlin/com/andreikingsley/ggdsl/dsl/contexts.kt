@@ -3,6 +3,7 @@ package com.andreikingsley.ggdsl.dsl
 import com.andreikingsley.ggdsl.ir.*
 import com.andreikingsley.ggdsl.ir.aes.*
 import com.andreikingsley.ggdsl.ir.scale.*
+import kotlin.reflect.typeOf
 
 // TODO internal
 
@@ -13,52 +14,76 @@ open class BaseContext {
     var settings: MutableMap<Aes, Any> = mutableMapOf()
     var scales: MutableMap<Aes, Scale> = mutableMapOf()
 
-    infix fun<T: Any> PositionalAes.mapTo(dataSource: DataSource<T>): PositionalMapping<T> {
+    inline infix fun <reified DomainType : Any>
+            PositionalAes.mapTo(dataSource: DataSource<DomainType>):
+            PositionalMapping<DomainType> {
         mappings[this] = dataSource
-        scales[this] = DefaultPositionalScale<T>()
+        scales[this] = DefaultPositionalScale()
         return PositionalMapping(
             this,
-            dataSource
+            dataSource,
+            typeOf<DomainType>()
         )
     }
 
-    infix fun<T: Any, R: Any> NonPositionalAes<R>.mapTo(dataSource: DataSource<T>): NonPositionalMapping<T, R> {
+    inline infix fun <reified DomainType : Any, reified RangeType : Any>
+            MappableNonPositionalAes<RangeType>.mapTo(dataSource: DataSource<DomainType>):
+            NonPositionalMapping<DomainType, RangeType> {
         mappings[this] = dataSource
-        scales[this] = DefaultNonPositionalScale<T, R>()
+        scales[this] = DefaultNonPositionalScale()
         return NonPositionalMapping(
             this,
-            dataSource
+            dataSource,
+            typeOf<DomainType>(),
+            typeOf<RangeType>(),
         )
     }
 
     // TODO positional set
-    infix fun<T: Any> NonPositionalAes<T>.setTo(value: T) {
+    infix fun <RangeType : Any> NonPositionalAes<RangeType>.setTo(value: RangeType) {
         settings[this] = value // TODO()
     }
 
-    infix fun<T: Any> PositionalMapping<T>.scaleContinuous(block: (ContinuousPositionalScale<T>.() -> Unit)) {
-        scales[this.aes] = ContinuousPositionalScale<T>().apply(block)
+    inline infix fun <reified DomainType : Any>
+            PositionalMapping<DomainType>.scaleContinuous(
+        block: (ContinuousPositionalScale<DomainType>.() -> Unit)
+    ) {
+        scales[this.aes] = ContinuousPositionalScale<DomainType>(typeOf<DomainType>()).apply(block)
     }
 
-    infix fun<T: Any, R: Any> NonPositionalMapping<T, R>.scaleContinuous(block: (ContinuousNonPositionalScale<T, R>.() -> Unit)) {
-        scales[this.aes] = ContinuousNonPositionalScale<T, R>().apply(block)
+    inline infix fun <reified DomainType : Any, reified RangeType : Any>
+            NonPositionalMapping<DomainType, RangeType>.scaleContinuous(
+        block: (ContinuousNonPositionalScale<DomainType, RangeType>.() -> Unit)
+    ) {
+        scales[this.aes] =
+            ContinuousNonPositionalScale<DomainType, RangeType>(typeOf<DomainType>(), typeOf<RangeType>()).apply(block)
     }
 
-    infix fun<T: Any> PositionalMapping<T>.scaleCategorical(block: (CategoricalPositionalScale<T>.() -> Unit)) {
-        scales[this.aes] = CategoricalPositionalScale<T>().apply(block)
+    inline infix fun <reified DomainType : Any> PositionalMapping<DomainType>.scaleCategorical(
+        block: (CategoricalPositionalScale<DomainType>.() -> Unit)
+    ) {
+        scales[this.aes] = CategoricalPositionalScale<DomainType>(typeOf<DomainType>()).apply(block)
     }
 
-    infix fun<T: Any, R: Any> NonPositionalMapping<T, R>.scaleCategorical(block: (CategoricalNonPositionalScale<T, R>.() -> Unit)) {
-        scales[this.aes] = CategoricalNonPositionalScale<T, R>().apply(block)
+    inline infix fun <reified DomainType : Any, reified RangeType : Any>
+            NonPositionalMapping<DomainType, RangeType>.scaleCategorical(
+        block: (CategoricalNonPositionalScale<DomainType, RangeType>.() -> Unit)
+    ) {
+        scales[this.aes] =
+            CategoricalNonPositionalScale<DomainType, RangeType>(typeOf<DomainType>(), typeOf<RangeType>()).apply(block)
     }
 
-    infix fun<T: Any> PositionalMapping<T>.scale(scale: PositionalScale<T>) {
+    // TODO Scales
+    /*
+    infix fun <T : Any> PositionalMapping<T>.scale(scale: PositionalScale<T>) {
         scales[this.aes] = scale
     }
 
-    infix fun<T: Any, R: Any> NonPositionalMapping<T, R>.scale(scale: NonPositionalScale<T, R>) {
+    infix fun <T : Any, R : Any> NonPositionalMapping<T, R>.scale(scale: NonPositionalScale<T, R>) {
         scales[this.aes] = scale
     }
+
+     */
 
     // TODO other????
     val x = X
@@ -74,30 +99,34 @@ abstract class LayerContext : BaseContext() {
     }
 }
 
-class PointsContext: LayerContext(){
+class PointsContext : LayerContext() {
     val size = SIZE
     val color = COLOR
     val alpha = ALPHA
 
-    // TODO
-    //val borderWidth = BORDER_WIDTH
-   // val borderColor = BORDER_COLOR
+    val borderWidth = BORDER_WIDTH
+    val borderColor = BORDER_COLOR
+
+    // todo symbol
 }
 
-class LineContext: LayerContext(){
+class LineContext : LayerContext() {
+    val color = COLOR
+    val alpha = ALPHA
+
     val width = WIDTH
-    val color = COLOR
-    val alpha = ALPHA
+
+    // todo linetype
 }
 
-class BarsContext: LayerContext(){
-    val size = WIDTH
+class BarsContext : LayerContext() {
     val color = COLOR
     val alpha = ALPHA
 
-    // TODO
-    //val borderWidth = BORDER_WIDTH
-    //val borderColor = BORDER_COLOR
+    val width = WIDTH
+
+    val borderWidth = BORDER_WIDTH
+    val borderColor = BORDER_COLOR
 }
 
 class PlotContext : BaseContext() {

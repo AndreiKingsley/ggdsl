@@ -1,9 +1,12 @@
 package com.andreikingsley.ggdsl.ir.scale.guide
 
-sealed class Guide {
-    // TODO
+// TODO
+sealed class Guide<RangeType> {
+    var name: String? = null
+
+    var breaks: List<RangeType>? = null
 }
 
-class Axis(): Guide()
+class Axis<RangeType>(): Guide<RangeType>()
 
-class Legend(): Guide()
+class Legend<DomainType, RangeType>(): Guide<RangeType>()
