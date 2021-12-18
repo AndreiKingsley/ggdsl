@@ -18,7 +18,7 @@ open class BaseContext {
             PositionalAes.mapTo(dataSource: DataSource<DomainType>):
             PositionalMapping<DomainType> {
         mappings[this] = dataSource
-        scales[this] = DefaultPositionalScale()
+        scales[this] = DefaultPositionalScale<DomainType>(typeOf<DomainType>())
         return PositionalMapping(
             this,
             dataSource,
@@ -30,7 +30,7 @@ open class BaseContext {
             MappableNonPositionalAes<RangeType>.mapTo(dataSource: DataSource<DomainType>):
             NonPositionalMapping<DomainType, RangeType> {
         mappings[this] = dataSource
-        scales[this] = DefaultNonPositionalScale()
+        scales[this] = DefaultNonPositionalScale<DomainType, RangeType>(typeOf<DomainType>(), typeOf<RangeType>())
         return NonPositionalMapping(
             this,
             dataSource,
