@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.andreikingsley"
-version = "0.1.2-dev-1.6"
+version = "0.1.2-dev-1.7"
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "com.andreikingsley"
             artifactId = "ggdsl"
-            version = "0.1.2-dev-1.6"
+            version = "0.1.2-dev-1.7"
 
             from(components["java"])
         }

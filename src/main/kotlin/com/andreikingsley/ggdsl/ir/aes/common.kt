@@ -14,8 +14,6 @@ val BORDER_COLOR = NonPositionalAes<String>("border_color")
 
 val WIDTH = NonPositionalAes<Double>("width")
 
-// TODO GROUP?
-
 // TODO
 //val SYMBOL = MappableNonPositionalAes<Symbol>("color")
 val SYMBOL = MappableNonPositionalAes<String>("symbol")

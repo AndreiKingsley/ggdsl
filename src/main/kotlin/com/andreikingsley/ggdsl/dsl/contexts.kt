@@ -131,4 +131,5 @@ class BarsContext : LayerContext() {
 
 class PlotContext : BaseContext() {
     val layers: MutableList<Layer> = mutableListOf()
+    var layout = Layout()
 }
