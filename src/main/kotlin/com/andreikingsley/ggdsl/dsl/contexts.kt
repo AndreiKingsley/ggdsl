@@ -91,6 +91,7 @@ open class BaseContext {
 }
 
 abstract class LayerContext : BaseContext() {
+    val features: MutableList<LayerFeature> = mutableListOf()
     fun copyFrom(other: BaseContext) {
         dataset = other.dataset?.toMutableMap() // TODO
         mappings = other.mappings.toMutableMap()
@@ -131,5 +132,6 @@ class BarsContext : LayerContext() {
 
 class PlotContext : BaseContext() {
     val layers: MutableList<Layer> = mutableListOf()
+    val features: MutableList<PlotFeature> = mutableListOf()
     var layout = Layout()
 }
