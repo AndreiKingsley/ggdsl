@@ -8,5 +8,6 @@ class Layer(
     var geom: Geom,
     val mappings: Map<Aes, String>,
     val settings: Map<Aes, Any>,
-    val scales: Map<Aes, Scale>
+    val scales: Map<Aes, Scale>,
+    val features: List<LayerFeature> = emptyList(),
 )
