@@ -4,7 +4,7 @@ import com.andreikingsley.ggdsl.ir.*
 import com.andreikingsley.ggdsl.ir.scale.guide.*
 
 fun PlotContext.toPlot(): Plot {
-    return Plot(dataset, layers, layout)
+    return Plot(dataset, layers, layout, features)
 }
 
 fun plot(block: PlotContext.() -> Unit): Plot {
@@ -12,7 +12,7 @@ fun plot(block: PlotContext.() -> Unit): Plot {
 }
 
 fun LayerContext.toLayer(geom: Geom): Layer {
-    return Layer(dataset, geom, mappings.map { it.key to it.value.id }.toMap(), settings, scales)
+    return Layer(dataset, geom, mappings.map { it.key to it.value.id }.toMap(), settings, scales, features)
 }
 
 
