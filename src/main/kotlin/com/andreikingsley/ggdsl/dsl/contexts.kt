@@ -109,6 +109,8 @@ class PointsContext : LayerContext() {
     val borderWidth = BORDER_WIDTH
     val borderColor = BORDER_COLOR
 
+    val symbol = SYMBOL
+
     // todo symbol
 }
 

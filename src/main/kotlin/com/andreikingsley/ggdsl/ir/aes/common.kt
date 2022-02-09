@@ -1,6 +1,6 @@
 package com.andreikingsley.ggdsl.ir.aes
 
-import com.andreikingsley.ggdsl.ir.util.Symbol
+import com.andreikingsley.ggdsl.ir.symbol.Symbol
 
 val X = PositionalAes("x")
 val Y = PositionalAes("y")
@@ -14,6 +14,4 @@ val BORDER_COLOR = NonPositionalAes<String>("border_color")
 
 val WIDTH = NonPositionalAes<Double>("width")
 
-// TODO
-//val SYMBOL = MappableNonPositionalAes<Symbol>("color")
-val SYMBOL = MappableNonPositionalAes<String>("symbol")
+val SYMBOL = MappableNonPositionalAes<Symbol>("symbol")
