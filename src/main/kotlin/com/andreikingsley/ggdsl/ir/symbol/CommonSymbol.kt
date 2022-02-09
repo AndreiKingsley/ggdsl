@@ -1,3 +1,3 @@
 package com.andreikingsley.ggdsl.ir.symbol
 
-class CommonSymbol(val name: String)
+class CommonSymbol(override val name: String): Symbol
