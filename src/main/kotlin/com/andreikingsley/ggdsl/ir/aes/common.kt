@@ -10,6 +10,7 @@ val COLOR = MappableNonPositionalAes<String>("color")
 val ALPHA = MappableNonPositionalAes<Double>("alpha")
 
 val BORDER_WIDTH = NonPositionalAes<Double>("border_size")
+//val Mappable_BORDER_WIDTH = MappableNonPositionalAes<Double>("border_size")
 val BORDER_COLOR = NonPositionalAes<String>("border_color")
 
 val WIDTH = NonPositionalAes<Double>("width")

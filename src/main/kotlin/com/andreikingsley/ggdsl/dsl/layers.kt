@@ -11,6 +11,7 @@ fun PlotContext.bars(block: BarsContext.() -> Unit) {
     // TODO dataset
     layers.add(BarsContext().apply { copyFrom(this@bars) }.apply(block).toLayer(Geom.BAR))
 }
+
 fun PlotContext.line(block: LineContext.() -> Unit) {
     // TODO dataset
     layers.add(LineContext().apply { copyFrom(this@line) }.apply(block).toLayer(Geom.LINE))
