@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.andreikingsley"
-version = "0.1.2-dev-1.8-feature-1.1"
+version = "0.1.2-dev-1.8-add-0.1"
 
 repositories {
     mavenCentral()
