@@ -6,6 +6,8 @@ import kotlin.reflect.KType
 
 sealed interface Scale
 
+interface CustomScale: Scale
+
 sealed class PositionalScale<DomainType : Any> : Scale {
     val axis: Axis<DomainType> = Axis()
 
