@@ -93,6 +93,7 @@ open class BaseContext {
 abstract class LayerContext : BaseContext() {
     val features: MutableMap<FeatureName, LayerFeature> = mutableMapOf()
 
+    // TODO
     fun copyFrom(other: BaseContext) {
         dataset = other.dataset?.toMutableMap() // TODO
         mappings = other.mappings.toMutableMap()
@@ -133,8 +134,19 @@ class BarsContext : LayerContext() {
     val borderColor = BORDER_COLOR
 }
 
-class PlotContext : BaseContext() {
+class PlotContext() : BaseContext() {
+
     val layers: MutableList<Layer> = mutableListOf()
     val features: MutableMap<FeatureName, PlotFeature> = mutableMapOf()
     var layout = Layout()
+
+    constructor(plot: Plot) : this() {
+        // TODO add settings
+        mappings.putAll(plot.globalMappings)
+
+        layers.addAll(plot.layers)
+        features.putAll(plot.features)
+        layout = plot.layout
+    }
+
 }
