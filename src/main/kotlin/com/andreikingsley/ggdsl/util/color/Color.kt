@@ -1,4 +1,4 @@
-package com.andreikingsley.ggdsl.util
+package com.andreikingsley.ggdsl.util.color
 
 interface Color {
     companion object {
