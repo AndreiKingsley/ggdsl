@@ -13,6 +13,9 @@ fun Plot.add(block: PlotContext.() -> Unit): Plot{
             addAll(newParameters.layers)
         },
         layout,
+        globalMappings.toMutableMap().apply {
+         putAll(newParameters.mappings)
+        },
         features.toMutableMap().apply {
             putAll(newParameters.features)
         },
