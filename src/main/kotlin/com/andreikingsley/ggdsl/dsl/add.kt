@@ -8,7 +8,7 @@ import com.andreikingsley.ggdsl.ir.Plot
 fun Plot.add(block: PlotContext.() -> Unit): Plot{
     val newParameters = PlotContext(this).apply(block)
     return Plot(
-        dataset, // Todo mutable??
+        dataset, // Todo mutable?? // TODO plot(dataset)
         layers.toMutableList().apply {
             addAll(newParameters.layers)
         },

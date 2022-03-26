@@ -2,6 +2,7 @@ package com.andreikingsley.ggdsl.ir.aes
 
 import com.andreikingsley.ggdsl.util.symbol.Symbol
 import com.andreikingsley.ggdsl.util.color.Color
+import com.andreikingsley.ggdsl.util.linetype.LineType
 
 val X = PositionalAes("x")
 val Y = PositionalAes("y")
@@ -18,3 +19,5 @@ val BORDER_COLOR = NonPositionalAes<Color>("border_color")
 val WIDTH = NonPositionalAes<Double>("width")
 
 val SYMBOL = MappableNonPositionalAes<Symbol>("symbol")
+
+val LINE_TYPE = NonPositionalAes<LineType>("line_type")
