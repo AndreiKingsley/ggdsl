@@ -4,15 +4,21 @@ import com.andreikingsley.ggdsl.ir.*
 import com.andreikingsley.ggdsl.ir.scale.guide.*
 
 fun PlotContext.toPlot(): Plot {
-    return Plot(dataset, layers, layout, mappings, features)
+    return Plot(dataset, layers, layout, collectorAccessor.mappings, features)
 }
 
-fun plot(block: PlotContext.() -> Unit): Plot {
-    return PlotContext().apply(block).toPlot()
+fun plot(dataset: NamedData, block: PlotContext.() -> Unit): Plot {
+    return PlotContext(dataset).apply(block).toPlot()
 }
 
 fun LayerContext.toLayer(geom: Geom): Layer {
-    return Layer(dataset, geom, mappings.map { it.key to it.value.id }.toMap(), settings, scales, features)
+    return Layer(
+        geom,
+        collectorAccessor.mappings.map { it.key to it.value.id }.toMap(),
+        collectorAccessor.settings,
+        collectorAccessor.scales,
+        features
+    )
 }
 
 

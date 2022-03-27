@@ -1,3 +1,3 @@
 package com.andreikingsley.ggdsl.ir
 
-typealias NamedData = Map<String, Array<Any>>
+typealias NamedData = Map<String, List<Any>>

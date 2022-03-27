@@ -7,30 +7,59 @@ import kotlin.reflect.typeOf
 
 // TODO internal
 
-open class BaseContext {
-    var dataset: NamedData? = null
+class ContextCollector {
+    val mappings: MutableMap<Aes, DataSource<Any>> = mutableMapOf()
+    val settings: MutableMap<Aes, Any> = mutableMapOf()
+    val scales: MutableMap<Aes, Scale> = mutableMapOf()
 
-    var mappings: MutableMap<Aes, DataSource<Any>> = mutableMapOf()
-    var settings: MutableMap<Aes, Any> = mutableMapOf()
-    var scales: MutableMap<Aes, Scale> = mutableMapOf()
+    fun copyFrom(other: ContextCollector) {
+        mappings.putAll(other.mappings)
+        settings.putAll(other.settings)
+        scales.putAll(other.scales)
+    }
+}
+
+abstract class BaseContext {
+   // open var dataset: NamedData = mapOf()
+
+    protected val collector = ContextCollector()
+    @PublishedApi
+    internal val collectorAccessor: ContextCollector
+        get() = collector
+
+    fun copyFrom(other: BaseContext) {
+        collector.copyFrom(other.collector)
+    }
 
     inline infix fun <reified DomainType : Any>
             PositionalAes.mapTo(dataSource: DataSource<DomainType>):
             PositionalMapping<DomainType> {
-        mappings[this] = dataSource
-        scales[this] = DefaultPositionalScale<DomainType>(typeOf<DomainType>())
+        collectorAccessor.mappings[this] = dataSource
+        collectorAccessor.scales[this] = DefaultPositionalScale<DomainType>(typeOf<DomainType>())
         return PositionalMapping(
             this,
             dataSource,
             typeOf<DomainType>()
         )
     }
+    /*
+    inline infix fun <reified DomainType : Any>
+            PositionalAes.mapTo(collection: Collection<DomainType>):
+            PositionalMapping<DomainType> {
+        val name = collection::class.qualifiedName!!
+        val dataSource = DataSource<DomainType>(name)
+        val array: Array<Any> = collection.toTypedArray()
+        dataset += name to array
+        return mapTo(dataSource)
+    }
+
+     */
 
     inline infix fun <reified DomainType : Any, reified RangeType : Any>
             MappableNonPositionalAes<RangeType>.mapTo(dataSource: DataSource<DomainType>):
             NonPositionalMapping<DomainType, RangeType> {
-        mappings[this] = dataSource
-        scales[this] =
+        collectorAccessor.mappings[this] = dataSource
+        collectorAccessor.scales[this] =
             DefaultNonPositionalScale<DomainType, RangeType>(typeOf<DomainType>(), typeOf<RangeType>())
         return NonPositionalMapping(
             this,
@@ -42,14 +71,14 @@ open class BaseContext {
 
     // TODO positional set
     infix fun <RangeType : Any> NonPositionalAes<RangeType>.setTo(value: RangeType) {
-        settings[this] = value
+        collectorAccessor.settings[this] = value
     }
 
     inline infix fun <reified DomainType : Any>
             PositionalMapping<DomainType>.scaleContinuous(
         block: (ContinuousPositionalScale<DomainType>.() -> Unit)
     ) {
-        scales[this.aes] =
+        collectorAccessor.scales[this.aes] =
             ContinuousPositionalScale<DomainType>(typeOf<DomainType>()).apply(block)
     }
 
@@ -57,7 +86,7 @@ open class BaseContext {
             NonPositionalMapping<DomainType, RangeType>.scaleContinuous(
         block: (ContinuousNonPositionalScale<DomainType, RangeType>.() -> Unit)
     ) {
-        scales[this.aes] =
+        collectorAccessor.scales[this.aes] =
             ContinuousNonPositionalScale<DomainType, RangeType>(
                 typeOf<DomainType>(), typeOf<RangeType>()
             ).apply(block)
@@ -66,32 +95,25 @@ open class BaseContext {
     inline infix fun <reified DomainType : Any> PositionalMapping<DomainType>.scaleCategorical(
         block: (CategoricalPositionalScale<DomainType>.() -> Unit)
     ) {
-        scales[this.aes] = CategoricalPositionalScale<DomainType>(typeOf<DomainType>()).apply(block)
+        collectorAccessor.scales[this.aes] = CategoricalPositionalScale<DomainType>(typeOf<DomainType>()).apply(block)
     }
 
     inline infix fun <reified DomainType : Any, reified RangeType : Any>
             NonPositionalMapping<DomainType, RangeType>.scaleCategorical(
         block: (CategoricalNonPositionalScale<DomainType, RangeType>.() -> Unit)
     ) {
-        scales[this.aes] =
+        collectorAccessor.scales[this.aes] =
             CategoricalNonPositionalScale<DomainType, RangeType>(typeOf<DomainType>(), typeOf<RangeType>()).apply(block)
     }
 
     // TODO other????
     val x = X
     val y = Y
+
 }
 
 abstract class LayerContext : BaseContext() {
     val features: MutableMap<FeatureName, LayerFeature> = mutableMapOf()
-
-    // TODO
-    fun copyFrom(other: BaseContext) {
-        dataset = other.dataset?.toMutableMap() // TODO
-        mappings = other.mappings.toMutableMap()
-        settings = other.settings.toMutableMap()
-        scales = other.scales.toMutableMap()
-    }
 }
 
 class PointsContext : LayerContext() {
@@ -124,19 +146,19 @@ class BarsContext : LayerContext() {
     val borderColor = BORDER_COLOR
 }
 
-class PlotContext() : BaseContext() {
+class PlotContext(val dataset: NamedData) : BaseContext() {
 
     val layers: MutableList<Layer> = mutableListOf()
     val features: MutableMap<FeatureName, PlotFeature> = mutableMapOf()
-    var layout = Layout()
+    val layout = Layout()
 
-    constructor(plot: Plot) : this() {
+    constructor(plot: Plot) : this(plot.dataset) {
         // TODO add settings?
-        mappings.putAll(plot.globalMappings)
+        collector.mappings.putAll(plot.globalMappings)
 
-        layers.addAll(plot.layers)
-        features.putAll(plot.features)
-        layout = plot.layout
+        //layers.addAll(plot.layers)
+        //features.putAll(plot.features)
+        ///layout.copyFrom(plot.layout)
     }
 
 }
