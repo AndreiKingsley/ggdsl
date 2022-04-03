@@ -4,7 +4,7 @@ interface Color {
     companion object {
         fun fromHex(hexString: String) = StandardColor(hexString)
         fun fromName(name: String) = StandardColor(name)
-        fun fromRGB(r: Double, g: Double, b: Double) = StandardColor(
+        fun fromRGB(r: Int, g: Int, b: Int) = StandardColor(
             String.format("#%02X%02X%02X", r, g, b)
         )
 
