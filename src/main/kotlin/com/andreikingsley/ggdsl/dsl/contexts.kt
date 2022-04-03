@@ -146,13 +146,15 @@ class BarsContext : LayerContext() {
     val borderColor = BORDER_COLOR
 }
 
-class PlotContext(val dataset: NamedData) : BaseContext() {
+class PlotContext(internal val dataset: NamedData) : BaseContext() {
 
+    // todo hide
     val layers: MutableList<Layer> = mutableListOf()
     val features: MutableMap<FeatureName, PlotFeature> = mutableMapOf()
     val layout = Layout()
 
-    constructor(plot: Plot) : this(plot.dataset) {
+    // TODO
+    internal constructor(plot: Plot) : this(plot.dataset) {
         // TODO add settings?
         collector.mappings.putAll(plot.globalMappings)
 

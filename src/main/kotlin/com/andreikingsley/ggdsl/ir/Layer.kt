@@ -9,5 +9,5 @@ class Layer(
     val mappings: Map<Aes, String>,
     val settings: Map<Aes, Any>,
     val scales: Map<Aes, Scale>,
-    val features: Map<FeatureName, LayerFeature> = emptyMap(),
+    val features: Map<FeatureName, LayerFeature> = emptyMap(), // todo list???
 )
