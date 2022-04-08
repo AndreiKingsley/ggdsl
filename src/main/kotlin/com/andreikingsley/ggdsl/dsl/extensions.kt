@@ -14,9 +14,9 @@ fun plot(dataset: NamedData, block: PlotContext.() -> Unit): Plot {
 fun LayerContext.toLayer(geom: Geom): Layer {
     return Layer(
         geom,
-        collectorAccessor.mappings.map { it.key to it.value.id }.toMap(),
+        collectorAccessor.mappings,
         collectorAccessor.settings,
-        collectorAccessor.scales,
+        //collectorAccessor.scales,
         features
     )
 }

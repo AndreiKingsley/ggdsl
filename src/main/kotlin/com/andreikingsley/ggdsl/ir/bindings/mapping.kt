@@ -25,7 +25,7 @@ data class ScalablePositionalMapping<DomainType : Any>(
     override val source: DataSource<DomainType>,
     override val domainType: KType,
 
-    val scale: PositionalScale<DomainType>
+    var scale: PositionalScale<DomainType>
 ): PositionalMapping<DomainType>
 
 data class NonPositionalMapping<DomainType : Any, RangeType : Any>(
@@ -34,7 +34,7 @@ data class NonPositionalMapping<DomainType : Any, RangeType : Any>(
     val domainType: KType,
     val rangeType: KType,
 
-    val scale: NonPositionalScale<DomainType, RangeType>
+    var scale: NonPositionalScale<DomainType, RangeType>
 ): Mapping
 
 // todo nonscalable???s

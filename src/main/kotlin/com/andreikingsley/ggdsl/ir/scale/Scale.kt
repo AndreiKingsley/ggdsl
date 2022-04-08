@@ -7,7 +7,7 @@ import kotlin.reflect.KType
 sealed interface Scale
 
 abstract class PositionalScale<DomainType : Any> : Scale {
-    val axis: Axis? = null
+    var axis: Axis? = null
 
     abstract val domainType: KType
 }
