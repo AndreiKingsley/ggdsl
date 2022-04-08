@@ -46,7 +46,7 @@ inline infix fun<DomainType : Any, RangeType: Any> NonPositionalMapping<DomainTy
 ){
     scale = NonPositionalScaleContext<DomainType, RangeType>(domainType, rangeType).apply(block).let {
         it.scale.apply {
-            println((it as CategoricalNonPositionalScale<*, *>).values)
+            println((it.scale as CategoricalNonPositionalScale<*, *>).values)
             this.legend = it.legend
         }
     }
