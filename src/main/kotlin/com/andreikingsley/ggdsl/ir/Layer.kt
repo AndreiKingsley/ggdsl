@@ -8,7 +8,7 @@ import com.andreikingsley.ggdsl.ir.scale.Scale
 class Layer(
     //val data: NamedData?,
     var geom: Geom,
-    val mappings: Map<Aes, Mapping>,
+    val mappings: Map<Aes, Mapping<*>>,
     val settings: Map<Aes, Setting>,
     //val scales: Map<Aes, Scale>,
     val features: Map<FeatureName, LayerFeature> = emptyMap(), // todo list???

@@ -14,7 +14,7 @@ import kotlin.reflect.typeOf
 // TODO internal
 
 class ContextCollector {
-    val mappings: MutableMap<Aes, Mapping> = mutableMapOf()
+    val mappings: MutableMap<Aes, Mapping<*>> = mutableMapOf()
     val settings: MutableMap<Aes, Setting> = mutableMapOf()
     //val scales: MutableMap<Aes, Scale> = mutableMapOf()
 
