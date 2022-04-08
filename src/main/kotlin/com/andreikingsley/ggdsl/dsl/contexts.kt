@@ -2,6 +2,11 @@ package com.andreikingsley.ggdsl.dsl
 
 import com.andreikingsley.ggdsl.ir.*
 import com.andreikingsley.ggdsl.ir.aes.*
+import com.andreikingsley.ggdsl.ir.bindings.NonPositionalMapping
+import com.andreikingsley.ggdsl.ir.bindings.PositionalMapping
+import com.andreikingsley.ggdsl.ir.bindings.ScalablePositionalMapping
+import com.andreikingsley.ggdsl.ir.data.DataSource
+import com.andreikingsley.ggdsl.ir.data.NamedData
 import com.andreikingsley.ggdsl.ir.scale.*
 import kotlin.reflect.typeOf
 
@@ -32,14 +37,15 @@ abstract class BaseContext {
     }
 
     inline infix fun <reified DomainType : Any>
-            PositionalAes.mapTo(dataSource: DataSource<DomainType>):
+            ScalablePositionalAes.mapTo(dataSource: DataSource<DomainType>):
             PositionalMapping<DomainType> {
         collectorAccessor.mappings[this] = dataSource
         collectorAccessor.scales[this] = DefaultPositionalScale<DomainType>(typeOf<DomainType>())
-        return PositionalMapping(
+        return ScalablePositionalMapping(
             this,
             dataSource,
-            typeOf<DomainType>()
+            typeOf<DomainType>(),
+            TODO()
         )
     }
     /*
@@ -66,6 +72,7 @@ abstract class BaseContext {
             dataSource,
             typeOf<DomainType>(),
             typeOf<RangeType>(),
+            TODO()
         )
     }
 

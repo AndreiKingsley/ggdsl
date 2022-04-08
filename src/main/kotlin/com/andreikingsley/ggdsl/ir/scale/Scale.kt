@@ -6,16 +6,14 @@ import kotlin.reflect.KType
 
 sealed interface Scale
 
-interface CustomScale: Scale
-
-sealed class PositionalScale<DomainType : Any> : Scale {
-    val axis: Axis<DomainType> = Axis()
+abstract class PositionalScale<DomainType : Any> : Scale {
+    val axis: Axis? = null
 
     abstract val domainType: KType
 }
 
-sealed class NonPositionalScale<DomainType : Any, RangeType : Any> : Scale {
-    //var legend: Legend<DomainType, RangeType>? = null
+abstract class NonPositionalScale<DomainType : Any, RangeType : Any> : Scale {
+    var legend: Legend? = null
 
     abstract val domainType: KType
     abstract val rangeType: KType

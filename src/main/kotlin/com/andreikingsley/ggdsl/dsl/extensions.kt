@@ -1,7 +1,7 @@
 package com.andreikingsley.ggdsl.dsl
 
 import com.andreikingsley.ggdsl.ir.*
-import com.andreikingsley.ggdsl.ir.scale.guide.*
+import com.andreikingsley.ggdsl.ir.data.NamedData
 
 fun PlotContext.toPlot(): Plot {
     return Plot(dataset, layers, layout, collectorAccessor.mappings, features)
@@ -21,10 +21,12 @@ fun LayerContext.toLayer(geom: Geom): Layer {
     )
 }
 
-
+/*
 operator fun <RangeType> Axis<RangeType>.invoke(block: Axis<RangeType>.() -> Unit) {
     this.apply(block)
 }
+
+ */
 
 operator fun Layout.invoke(block: Layout.() -> Unit) {
     this.apply(block)

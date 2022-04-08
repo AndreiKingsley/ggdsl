@@ -1,16 +1,8 @@
 package com.andreikingsley.ggdsl.ir.scale.guide
 
-// TODO
-sealed class Guide<RangeType> {
-    // todo show
-    var name: String? = null
 
-    // todo labels
+sealed interface Guide
 
-    // format???
-    // TODO var breaks: List<RangeType>? = null
-}
+interface Axis: Guide
 
-class Axis<RangeType>(): Guide<RangeType>()
-
-class Legend<DomainType, RangeType>(): Guide<RangeType>()
+interface Legend: Guide

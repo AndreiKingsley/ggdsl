@@ -4,8 +4,8 @@ import com.andreikingsley.ggdsl.util.symbol.Symbol
 import com.andreikingsley.ggdsl.util.color.Color
 import com.andreikingsley.ggdsl.util.linetype.LineType
 
-val X = PositionalAes("x")
-val Y = PositionalAes("y")
+val X = ScalablePositionalAes("x")
+val Y = ScalablePositionalAes("y")
 
 val SIZE = MappableNonPositionalAes<Double>("size")
 //val COLOR = MappableNonPositionalAes<String>("color")
