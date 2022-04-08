@@ -58,14 +58,14 @@ class NonPositionalScaleContext<DomainType : Any, RangeType : Any>(domainType: K
 
 
 inline infix fun <reified DomainType : Any>
-        PositionalScaleContext<DomainType>.scaleContinuous(
+        PositionalScaleContext<DomainType>.continuous(
     block: (ContinuousPositionalScale<DomainType>.() -> Unit)
 ) {
     scale = ContinuousPositionalScale<DomainType>(typeOf<DomainType>()).apply(block)
 }
 
 inline infix fun <reified DomainType : Any, reified RangeType : Any>
-        NonPositionalScaleContext<DomainType, RangeType>.scaleContinuous(
+        NonPositionalScaleContext<DomainType, RangeType>.continuous(
     block: (ContinuousNonPositionalScale<DomainType, RangeType>.() -> Unit)
 ) {
     scale = ContinuousNonPositionalScale<DomainType, RangeType>(
@@ -73,14 +73,14 @@ inline infix fun <reified DomainType : Any, reified RangeType : Any>
     ).apply(block)
 }
 
-inline infix fun <reified DomainType : Any> PositionalScaleContext<DomainType>.scaleCategorical(
+inline infix fun <reified DomainType : Any> PositionalScaleContext<DomainType>.categorical(
     block: (CategoricalPositionalScale<DomainType>.() -> Unit)
 ) {
     scale = CategoricalPositionalScale<DomainType>(typeOf<DomainType>()).apply(block)
 }
 
 inline infix fun <reified DomainType : Any, reified RangeType : Any>
-        NonPositionalScaleContext<DomainType, RangeType>.scaleCategorical(
+        NonPositionalScaleContext<DomainType, RangeType>.categorical(
     block: (CategoricalNonPositionalScale<DomainType, RangeType>.() -> Unit)
 ) {
     scale = CategoricalNonPositionalScale<DomainType, RangeType>(
