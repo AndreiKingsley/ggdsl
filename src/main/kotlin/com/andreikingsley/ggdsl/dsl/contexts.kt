@@ -30,7 +30,7 @@ class PositionalScaleContext<DomainType : Any>(domainType: KType) {
     var axis: Axis? = null
 }
 
-operator fun<DomainType : Any> ScalablePositionalMapping<DomainType>.invoke(
+inline infix fun<DomainType : Any> ScalablePositionalMapping<DomainType>.scale(
     block: PositionalScaleContext<DomainType>.() -> Unit
 ){
     scale = PositionalScaleContext<DomainType>(domainType).apply(block).let {
@@ -40,7 +40,7 @@ operator fun<DomainType : Any> ScalablePositionalMapping<DomainType>.invoke(
     }
 }
 
-operator fun<DomainType : Any, RangeType: Any> NonPositionalMapping<DomainType, RangeType>.invoke(
+inline infix fun<DomainType : Any, RangeType: Any> NonPositionalMapping<DomainType, RangeType>.scale(
     block: NonPositionalScaleContext<DomainType, RangeType>.() -> Unit
 ){
     scale = NonPositionalScaleContext<DomainType, RangeType>(domainType, rangeType).apply(block).let {
