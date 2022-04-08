@@ -25,6 +25,7 @@ class ContextCollector {
     }
 }
 
+// TODO hide scale
 class PositionalScaleContext<DomainType : Any>(domainType: KType) {
     var scale: PositionalScale<DomainType> = DefaultPositionalScale(domainType)
     var axis: Axis? = null
@@ -34,7 +35,7 @@ inline infix fun<DomainType : Any> ScalablePositionalMapping<DomainType>.scale(
     block: PositionalScaleContext<DomainType>.() -> Unit
 ){
     scale = PositionalScaleContext<DomainType>(domainType).apply(block).let {
-        scale.apply {
+        it.scale.apply {
             this.axis = it.axis
         }
     }
@@ -44,7 +45,7 @@ inline infix fun<DomainType : Any, RangeType: Any> NonPositionalMapping<DomainTy
     block: NonPositionalScaleContext<DomainType, RangeType>.() -> Unit
 ){
     scale = NonPositionalScaleContext<DomainType, RangeType>(domainType, rangeType).apply(block).let {
-        scale.apply {
+        it.scale.apply {
             this.legend = it.legend
         }
     }
