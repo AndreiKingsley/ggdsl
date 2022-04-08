@@ -4,9 +4,14 @@ import com.andreikingsley.ggdsl.ir.data.DataSource
 import com.andreikingsley.ggdsl.ir.aes.*
 import com.andreikingsley.ggdsl.ir.scale.NonPositionalScale
 import com.andreikingsley.ggdsl.ir.scale.PositionalScale
+import com.andreikingsley.ggdsl.ir.scale.Scale
 import kotlin.reflect.KType
 
 sealed interface Mapping
+
+sealed interface ScalableMapping {
+    val scale: Scale
+}
 
 sealed interface PositionalMapping<DomainType>: Mapping {
     val aes: PositionalAes
@@ -25,8 +30,8 @@ data class ScalablePositionalMapping<DomainType : Any>(
     override val source: DataSource<DomainType>,
     override val domainType: KType,
 
-    var scale: PositionalScale<DomainType>
-): PositionalMapping<DomainType>
+    override var scale: PositionalScale<DomainType>
+): PositionalMapping<DomainType>, ScalableMapping
 
 data class NonPositionalMapping<DomainType : Any, RangeType : Any>(
     val aes: NonPositionalAes<RangeType>,
@@ -34,7 +39,7 @@ data class NonPositionalMapping<DomainType : Any, RangeType : Any>(
     val domainType: KType,
     val rangeType: KType,
 
-    var scale: NonPositionalScale<DomainType, RangeType>
-): Mapping
+    override var scale: NonPositionalScale<DomainType, RangeType>
+): Mapping, ScalableMapping
 
 // todo nonscalable???s
