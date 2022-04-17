@@ -25,73 +25,9 @@ class ContextCollector {
     }
 }
 
-// TODO hide scale
-class PositionalScaleContext<DomainType : Any>(domainType: KType) {
-    var scale: PositionalScale<DomainType> = DefaultPositionalScale(domainType)
-    var axis: Axis? = null
-}
-
-inline infix fun<DomainType : Any> ScalablePositionalMapping<DomainType>.scale(
-    block: PositionalScaleContext<DomainType>.() -> Unit
-){
-    scale = PositionalScaleContext<DomainType>(domainType).apply(block).let {
-        it.scale.apply {
-            this.axis = it.axis
-        }
-    }
-}
-
-inline infix fun<DomainType : Any, RangeType: Any> NonPositionalMapping<DomainType, RangeType>.scale(
-    block: NonPositionalScaleContext<DomainType, RangeType>.() -> Unit
-){
-    scale = NonPositionalScaleContext<DomainType, RangeType>(domainType, rangeType).apply(block).let {
-        it.scale.apply {
-            this.legend = it.legend
-        }
-    }
-}
-
-class NonPositionalScaleContext<DomainType : Any, RangeType : Any>(domainType: KType, rangeType: KType) {
-    var scale: NonPositionalScale<DomainType, RangeType> =
-        DefaultNonPositionalScale(domainType, rangeType)
-    var legend: Legend? = null
-}
-
-
-inline infix fun <reified DomainType : Any>
-        PositionalScaleContext<DomainType>.continuous(
-    block: (ContinuousPositionalScale<DomainType>.() -> Unit)
-) {
-    scale = ContinuousPositionalScale<DomainType>(typeOf<DomainType>()).apply(block)
-}
-
-inline infix fun <reified DomainType : Any, reified RangeType : Any>
-        NonPositionalScaleContext<DomainType, RangeType>.continuous(
-    block: (ContinuousNonPositionalScale<DomainType, RangeType>.() -> Unit)
-) {
-    scale = ContinuousNonPositionalScale<DomainType, RangeType>(
-            typeOf<DomainType>(), typeOf<RangeType>()
-    ).apply(block)
-}
-
-inline infix fun <reified DomainType : Any> PositionalScaleContext<DomainType>.categorical(
-    block: (CategoricalPositionalScale<DomainType>.() -> Unit)
-) {
-    scale = CategoricalPositionalScale<DomainType>(typeOf<DomainType>()).apply(block)
-}
-
-inline infix fun <reified DomainType : Any, reified RangeType : Any>
-        NonPositionalScaleContext<DomainType, RangeType>.categorical(
-    block: (CategoricalNonPositionalScale<DomainType, RangeType>.() -> Unit)
-) {
-    scale = CategoricalNonPositionalScale<DomainType, RangeType>(
-            typeOf<DomainType>(), typeOf<RangeType>()
-    ).apply(block)
-}
-
 
 abstract class BaseContext {
-    // open var dataset: NamedData = mapOf()
+    abstract var data: MutableNamedData
 
     protected val collector = ContextCollector()
 
@@ -100,6 +36,7 @@ abstract class BaseContext {
         get() = collector
 
     fun copyFrom(other: BaseContext) {
+        data = other.data
         collector.copyFrom(other.collector)
     }
 
@@ -127,18 +64,6 @@ abstract class BaseContext {
             collectorAccessor.mappings[this] = it
         }
     }
-    /*
-    inline infix fun <reified DomainType : Any>
-            PositionalAes.mapTo(collection: Collection<DomainType>):
-            PositionalMapping<DomainType> {
-        val name = collection::class.qualifiedName!!
-        val dataSource = DataSource<DomainType>(name)
-        val array: Array<Any> = collection.toTypedArray()
-        dataset += name to array
-        return mapTo(dataSource)
-    }
-
-     */
 
     inline infix fun <reified DomainType : Any, reified RangeType : Any>
             MappableNonPositionalAes<RangeType>.mapTo(dataSource: DataSource<DomainType>):
@@ -159,6 +84,40 @@ abstract class BaseContext {
         collectorAccessor.settings[this] = NonPositionalSetting(this, value)
     }
 
+
+    inline infix fun <reified DomainType : Any>
+            NonScalablePositionalAes.mapTo(iterable: Iterable<DomainType>):
+            NonScalablePositionalMapping<DomainType> {
+        // generate new name????
+        val dataSource = DataSource<DomainType>(name)
+        val list = iterable.toList()
+        this@BaseContext.data[dataSource.id] = list
+        return mapTo(dataSource)
+    }
+
+
+    inline infix fun <reified DomainType : Any>
+            ScalablePositionalAes.mapTo(iterable: Iterable<DomainType>):
+            ScalablePositionalMapping<DomainType> {
+        // generate new name????
+        val dataSource = DataSource<DomainType>(name)
+        val list = iterable.toList()
+        this@BaseContext.data[dataSource.id] = list
+        return mapTo(dataSource)
+    }
+
+
+    inline infix fun <reified DomainType : Any, reified RangeType : Any>
+            MappableNonPositionalAes<RangeType>.mapTo(iterable: Iterable<DomainType>):
+            NonPositionalMapping<DomainType, RangeType> {
+        // generate new name????
+        val dataSource = DataSource<DomainType>(name)
+        val list = iterable.toList()
+        this@BaseContext.data[dataSource.id] = list
+        return mapTo(dataSource)
+    }
+
+
     // TODO other????
     val x = X
     val y = Y
@@ -166,10 +125,12 @@ abstract class BaseContext {
 }
 
 abstract class LayerContext : BaseContext() {
+
+    // todo hide
     val features: MutableMap<FeatureName, LayerFeature> = mutableMapOf()
 }
 
-class PointsContext : LayerContext() {
+class PointsContext(override var data: MutableNamedData) : LayerContext() {
     val size = SIZE
     val color = COLOR
     val alpha = ALPHA
@@ -180,7 +141,7 @@ class PointsContext : LayerContext() {
     val symbol = SYMBOL
 }
 
-class LineContext : LayerContext() {
+class LineContext (override var data: MutableNamedData) : LayerContext() {
     val color = COLOR
     val alpha = ALPHA
 
@@ -189,7 +150,7 @@ class LineContext : LayerContext() {
     val lineType = LINE_TYPE
 }
 
-class BarsContext : LayerContext() {
+class BarsContext (override var data: MutableNamedData) : LayerContext() {
     val color = COLOR
     val alpha = ALPHA
 
@@ -199,7 +160,9 @@ class BarsContext : LayerContext() {
     val borderColor = BORDER_COLOR
 }
 
-class PlotContext(internal val dataset: NamedData) : BaseContext() {
+class PlotContext() : BaseContext() {
+
+    override var data: MutableNamedData = mutableMapOf()
 
     // todo hide
     val layers: MutableList<Layer> = mutableListOf()
@@ -207,8 +170,9 @@ class PlotContext(internal val dataset: NamedData) : BaseContext() {
     val layout = Layout()
 
     // TODO
-    internal constructor(plot: Plot) : this(plot.dataset) {
+    internal constructor(plot: Plot) : this() {
         // TODO add settings?
+        data = plot.dataset.toMutableMap()
         collector.mappings.putAll(plot.globalMappings)
 
         //layers.addAll(plot.layers)

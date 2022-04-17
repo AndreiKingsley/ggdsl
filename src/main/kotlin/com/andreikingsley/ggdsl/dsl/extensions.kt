@@ -4,15 +4,24 @@ import com.andreikingsley.ggdsl.ir.*
 import com.andreikingsley.ggdsl.ir.data.NamedData
 
 fun PlotContext.toPlot(): Plot {
-    return Plot(dataset, layers, layout, collectorAccessor.mappings, features)
+    return Plot(data, layers, layout, collectorAccessor.mappings, features)
 }
 
+//todo remove>
 fun plot(dataset: NamedData, block: PlotContext.() -> Unit): Plot {
-    return PlotContext(dataset).apply(block).toPlot()
+    return PlotContext().apply{
+        data = dataset.toMutableMap()
+        apply(block)
+    }.toPlot()
+}
+
+fun plot(block: PlotContext.() -> Unit): Plot {
+    return PlotContext().apply(block).toPlot()
 }
 
 fun LayerContext.toLayer(geom: Geom): Layer {
     return Layer(
+        data,
         geom,
         collectorAccessor.mappings,
         collectorAccessor.settings,
