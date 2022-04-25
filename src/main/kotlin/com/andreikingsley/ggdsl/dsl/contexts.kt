@@ -14,7 +14,7 @@ import kotlin.reflect.typeOf
 // TODO internal
 
 class ContextCollector {
-    val mappings: MutableMap<Aes, Mapping<*>> = mutableMapOf()
+    val mappings: MutableMap<Aes, Mapping> = mutableMapOf()
     val settings: MutableMap<Aes, Setting> = mutableMapOf()
     //val scales: MutableMap<Aes, Scale> = mutableMapOf()
 
@@ -40,6 +40,59 @@ abstract class BaseContext {
         collector.copyFrom(other.collector)
     }
 
+    operator fun<T: Any> NonPositionalAes<T>.invoke(value: T) {
+        collector.settings[this] = NonPositionalSetting(this, value)
+    }
+
+    inline operator fun<reified DomainType : Any> NonScalablePositionalAes.invoke(
+        source: DataSource<DomainType>
+    ) {
+        collectorAccessor.mappings[this] = NonScalablePositionalMapping(this, source, typeOf<DomainType>())
+    }
+
+    inline operator fun<reified DomainType : Any> ScalableAes.invoke(
+        source: DataSource<DomainType>
+    ) {
+        collectorAccessor.mappings[this] = ScaledDefaultMapping(
+            this,
+            source.scaled(),
+            typeOf<DomainType>()
+        )
+    }
+
+    inline operator fun<reified DomainType : Any> ScalableAes.invoke(
+        sourceScaledDefault: SourceScaledDefault<DomainType>
+    ) {
+        collectorAccessor.mappings[this] = ScaledDefaultMapping(
+            this,
+            sourceScaledDefault,
+            typeOf<DomainType>()
+        )
+    }
+
+    inline operator fun<reified DomainType : Any> ScalablePositionalAes.invoke(
+        sourceScaledPositional: SourceScaledPositional<DomainType>
+    ) {
+        collectorAccessor.mappings[this] = ScaledPositionalMapping(
+            this,
+            sourceScaledPositional,
+            typeOf<DomainType>()
+        )
+    }
+
+    inline operator fun<reified DomainType : Any, reified RangeType: Any>
+            MappableNonPositionalAes<RangeType>.invoke(
+        sourceScaledNonPositional: SourceScaledNonPositional<DomainType, RangeType>
+    ) {
+        collectorAccessor.mappings[this] = ScaledNonPositionalMapping(
+            this,
+            sourceScaledNonPositional,
+            typeOf<DomainType>(),
+            typeOf<RangeType>()
+        )
+    }
+
+    /*
     inline infix fun <reified DomainType : Any> NonScalablePositionalAes.mapTo(
         dataSource: DataSource<DomainType>,
     ) : NonScalablePositionalMapping<DomainType> {
@@ -117,6 +170,8 @@ abstract class BaseContext {
         return mapTo(dataSource)
     }
 
+     */
+
 
     // TODO other????
     val x = X
@@ -169,6 +224,7 @@ class PlotContext() : BaseContext() {
     val features: MutableMap<FeatureName, PlotFeature> = mutableMapOf()
     val layout = Layout()
 
+    /*
     // TODO
     internal constructor(plot: Plot) : this() {
         // TODO add settings?
@@ -179,5 +235,7 @@ class PlotContext() : BaseContext() {
         //features.putAll(plot.features)
         ///layout.copyFrom(plot.layout)
     }
+
+     */
 
 }

@@ -5,6 +5,7 @@ import com.andreikingsley.ggdsl.ir.Plot
 /*
     New plot = old plot + new layers & features.
  */
+/* TODO
 fun Plot.add(block: PlotContext.() -> Unit): Plot{
     val newParameters = PlotContext(this).apply(block)
     return Plot(
@@ -21,3 +22,5 @@ fun Plot.add(block: PlotContext.() -> Unit): Plot{
         },
     )
 }
+
+ */

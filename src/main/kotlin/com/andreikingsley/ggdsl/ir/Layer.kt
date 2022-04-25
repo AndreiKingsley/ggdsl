@@ -10,7 +10,7 @@ class Layer(
     val data: NamedData? = null,
 
     var geom: Geom,
-    val mappings: Map<Aes, Mapping<*>>,
+    val mappings: Map<Aes, Mapping>,
     val settings: Map<Aes, Setting>,
     //val scales: Map<Aes, Scale>,
     val features: Map<FeatureName, LayerFeature> = emptyMap(), // todo list???

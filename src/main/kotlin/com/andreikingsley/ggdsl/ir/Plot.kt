@@ -9,6 +9,6 @@ data class Plot(
     val dataset: NamedData,
     val layers: List<Layer>,
     val layout: Layout,
-    val globalMappings: Map<Aes, Mapping<*>>, // todo
+   // val globalMappings: Map<Aes, Mapping>, // todo
     val features: Map<FeatureName, PlotFeature> = emptyMap()
 )

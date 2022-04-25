@@ -1,15 +1,20 @@
 package com.andreikingsley.ggdsl.ir.aes
 
-sealed class Aes(val name: String)
+sealed interface Aes{
+    val name: String
+}
 
-sealed class PositionalAes(name: String): Aes(name)
+sealed interface MappableAes: Aes
+sealed interface ScalableAes: MappableAes
 
-class ScalablePositionalAes(name: String): PositionalAes(name)
+sealed interface PositionalAes: MappableAes
 
-class NonScalablePositionalAes(name: String): PositionalAes(name)
+class ScalablePositionalAes(override val name: String): PositionalAes, ScalableAes
 
-open class NonPositionalAes<T>(name: String): Aes(name)
+class NonScalablePositionalAes(override val name: String): PositionalAes
 
-class MappableNonPositionalAes<T>(name: String): NonPositionalAes<T>(name)
+open class NonPositionalAes<T: Any>(override val name: String): Aes
 
-// todo scalable???
+class MappableNonPositionalAes<T: Any>(name: String): NonPositionalAes<T>(name), ScalableAes
+
+// TODO Other exists??? Todo Settable?
