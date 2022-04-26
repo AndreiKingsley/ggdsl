@@ -4,8 +4,7 @@ import com.andreikingsley.ggdsl.ir.*
 import com.andreikingsley.ggdsl.ir.data.NamedData
 
 fun PlotContext.toPlot(): Plot {
-    return Plot(data, featureCollectorAccessor.layers, layout, /*collectorAccessor.mappings,*/
-        featureCollectorAccessor.features)
+    return Plot(data, layers, layout, /*collectorAccessor.mappings,*/features)
 }
 
 //todo remove>

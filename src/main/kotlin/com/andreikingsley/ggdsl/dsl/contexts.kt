@@ -213,23 +213,14 @@ class BarsContext (override var data: MutableNamedData) : LayerContext() {
     val borderColor = BORDER_COLOR
 }
 
-class PointContextCollector internal constructor() {
-    val layers: MutableList<Layer> = mutableListOf()
-    val features: MutableMap<FeatureName, PlotFeature> = mutableMapOf()
-}
-
-class PlotContext() : BaseContext() {
+class PlotContext : BaseContext() {
 
     override var data: MutableNamedData = mutableMapOf()
 
-    // todo hide
     val layout = Layout()
 
-    private val featureCollector = PointContextCollector()
-
-    @PublishedApi
-    internal val featureCollectorAccessor: PointContextCollector
-        get() = featureCollector
+    val layers: MutableList<Layer> = mutableListOf()
+    val features: MutableMap<FeatureName, PlotFeature> = mutableMapOf()
 
     /*
     // TODO
