@@ -4,21 +4,19 @@ import com.andreikingsley.ggdsl.ir.*
 import com.andreikingsley.ggdsl.ir.aes.*
 import com.andreikingsley.ggdsl.ir.bindings.*
 import com.andreikingsley.ggdsl.ir.data.DataSource
-import com.andreikingsley.ggdsl.ir.data.NamedData
-import com.andreikingsley.ggdsl.ir.scale.*
-import com.andreikingsley.ggdsl.ir.scale.guide.Axis
-import com.andreikingsley.ggdsl.ir.scale.guide.Legend
-import kotlin.reflect.KType
+import com.andreikingsley.ggdsl.ir.feature.FeatureName
+import com.andreikingsley.ggdsl.ir.feature.LayerFeature
+import com.andreikingsley.ggdsl.ir.feature.PlotFeature
 import kotlin.reflect.typeOf
 
 // TODO internal
 
-class ContextCollector {
+class BindingCollector internal constructor(){
     val mappings: MutableMap<Aes, Mapping> = mutableMapOf()
     val settings: MutableMap<Aes, Setting> = mutableMapOf()
     //val scales: MutableMap<Aes, Scale> = mutableMapOf()
 
-    fun copyFrom(other: ContextCollector) {
+    fun copyFrom(other: BindingCollector) {
         mappings.putAll(other.mappings)
         settings.putAll(other.settings)
         //scales.putAll(other.scales)
@@ -29,31 +27,31 @@ class ContextCollector {
 abstract class BaseContext {
     abstract var data: MutableNamedData
 
-    protected val collector = ContextCollector()
+    protected val bindingCollector = BindingCollector()
 
     @PublishedApi
-    internal val collectorAccessor: ContextCollector
-        get() = collector
+    internal val bindingCollectorAccessor: BindingCollector
+        get() = bindingCollector
 
     fun copyFrom(other: BaseContext) {
         data = other.data
-        collector.copyFrom(other.collector)
+        bindingCollector.copyFrom(other.bindingCollector)
     }
 
     operator fun<T: Any> NonPositionalAes<T>.invoke(value: T) {
-        collector.settings[this] = NonPositionalSetting(this, value)
+        bindingCollector.settings[this] = NonPositionalSetting(this, value)
     }
 
     inline operator fun<reified DomainType : Any> NonScalablePositionalAes.invoke(
         source: DataSource<DomainType>
     ) {
-        collectorAccessor.mappings[this] = NonScalablePositionalMapping(this, source, typeOf<DomainType>())
+        bindingCollectorAccessor.mappings[this] = NonScalablePositionalMapping(this, source, typeOf<DomainType>())
     }
 
     inline operator fun<reified DomainType : Any> ScalableAes.invoke(
         source: DataSource<DomainType>
     ) {
-        collectorAccessor.mappings[this] = ScaledDefaultMapping(
+        bindingCollectorAccessor.mappings[this] = ScaledDefaultMapping(
             this,
             source.scaled(),
             typeOf<DomainType>()
@@ -63,7 +61,7 @@ abstract class BaseContext {
     inline operator fun<reified DomainType : Any> ScalableAes.invoke(
         sourceScaledDefault: SourceScaledDefault<DomainType>
     ) {
-        collectorAccessor.mappings[this] = ScaledDefaultMapping(
+        bindingCollectorAccessor.mappings[this] = ScaledDefaultMapping(
             this,
             sourceScaledDefault,
             typeOf<DomainType>()
@@ -73,7 +71,7 @@ abstract class BaseContext {
     inline operator fun<reified DomainType : Any> ScalablePositionalAes.invoke(
         sourceScaledPositional: SourceScaledPositional<DomainType>
     ) {
-        collectorAccessor.mappings[this] = ScaledPositionalMapping(
+        bindingCollectorAccessor.mappings[this] = ScaledPositionalMapping(
             this,
             sourceScaledPositional,
             typeOf<DomainType>()
@@ -84,7 +82,7 @@ abstract class BaseContext {
             MappableNonPositionalAes<RangeType>.invoke(
         sourceScaledNonPositional: SourceScaledNonPositional<DomainType, RangeType>
     ) {
-        collectorAccessor.mappings[this] = ScaledNonPositionalMapping(
+        bindingCollectorAccessor.mappings[this] = ScaledNonPositionalMapping(
             this,
             sourceScaledNonPositional,
             typeOf<DomainType>(),
@@ -215,14 +213,23 @@ class BarsContext (override var data: MutableNamedData) : LayerContext() {
     val borderColor = BORDER_COLOR
 }
 
+class PointContextCollector internal constructor() {
+    val layers: MutableList<Layer> = mutableListOf()
+    val features: MutableMap<FeatureName, PlotFeature> = mutableMapOf()
+}
+
 class PlotContext() : BaseContext() {
 
     override var data: MutableNamedData = mutableMapOf()
 
     // todo hide
-    val layers: MutableList<Layer> = mutableListOf()
-    val features: MutableMap<FeatureName, PlotFeature> = mutableMapOf()
     val layout = Layout()
+
+    private val featureCollector = PointContextCollector()
+
+    @PublishedApi
+    internal val featureCollectorAccessor: PointContextCollector
+        get() = featureCollector
 
     /*
     // TODO

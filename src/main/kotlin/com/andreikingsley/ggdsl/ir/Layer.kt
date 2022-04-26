@@ -4,12 +4,12 @@ import com.andreikingsley.ggdsl.ir.aes.Aes
 import com.andreikingsley.ggdsl.ir.bindings.Mapping
 import com.andreikingsley.ggdsl.ir.bindings.Setting
 import com.andreikingsley.ggdsl.ir.data.NamedData
-import com.andreikingsley.ggdsl.ir.scale.Scale
+import com.andreikingsley.ggdsl.ir.feature.FeatureName
+import com.andreikingsley.ggdsl.ir.feature.LayerFeature
 
-class Layer(
+data class Layer(
     val data: NamedData? = null,
-
-    var geom: Geom,
+    val geom: Geom,
     val mappings: Map<Aes, Mapping>,
     val settings: Map<Aes, Setting>,
     //val scales: Map<Aes, Scale>,

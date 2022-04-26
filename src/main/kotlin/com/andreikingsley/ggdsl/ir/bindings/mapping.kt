@@ -28,6 +28,21 @@ data class ScaledDefaultMapping<DomainType: Any>(
     override val sourceScaled: SourceScaledDefault<DomainType>,
     override val domainType: KType
 ): ScaledMapping<DomainType>
+/*
+data class ScaledPositionalDefaultMapping<DomainType: Any>(
+    override val aes: ScalablePositionalAes,
+    override val sourceScaled: SourceScaledDefault<DomainType>,
+    override val domainType: KType
+): ScaledMapping<DomainType>
+
+data class ScaledNonPositionalDefaultMapping<DomainType: Any, RangeType: Any>(
+    override val aes: MappableNonPositionalAes<RangeType>,
+    override val sourceScaled: SourceScaledDefault<DomainType>,
+    override val domainType: KType,
+    val rangeType: KType,
+): ScaledMapping<DomainType>
+
+ */
 
 data class ScaledPositionalMapping<DomainType: Any>(
     override val aes: ScalablePositionalAes,

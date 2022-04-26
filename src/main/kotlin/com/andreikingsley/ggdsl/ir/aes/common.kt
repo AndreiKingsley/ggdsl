@@ -8,7 +8,6 @@ val X = ScalablePositionalAes("x")
 val Y = ScalablePositionalAes("y")
 
 val SIZE = MappableNonPositionalAes<Double>("size")
-//val COLOR = MappableNonPositionalAes<String>("color")
 val COLOR = MappableNonPositionalAes<Color>("color")
 val ALPHA = MappableNonPositionalAes<Double>("alpha")
 

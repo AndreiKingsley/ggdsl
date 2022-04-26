@@ -1,9 +1,8 @@
 package com.andreikingsley.ggdsl.ir
 
-import com.andreikingsley.ggdsl.ir.aes.Aes
-import com.andreikingsley.ggdsl.ir.bindings.Mapping
-import com.andreikingsley.ggdsl.ir.data.DataSource
 import com.andreikingsley.ggdsl.ir.data.NamedData
+import com.andreikingsley.ggdsl.ir.feature.FeatureName
+import com.andreikingsley.ggdsl.ir.feature.PlotFeature
 
 data class Plot(
     val dataset: NamedData,
