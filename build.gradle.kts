@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.andreikingsley"
-val ggDSLVersion = "0.6.3"
+val ggDSLVersion = "0.6.4"
 version = ggDSLVersion
 
 repositories {

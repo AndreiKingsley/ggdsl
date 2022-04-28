@@ -8,7 +8,6 @@ sealed interface PositionalDefaultScale: DefaultScale
 sealed interface NonPositionalDefaultScale: DefaultScale
 
 class PositionalContinuousDefaultScale: PositionalDefaultScale, ContinuousScale
-
 class PositionalCategoricalDefaultScale: PositionalDefaultScale, CategoricalScale
 
 class NonPositionalContinuousDefaultScale: NonPositionalDefaultScale, ContinuousScale

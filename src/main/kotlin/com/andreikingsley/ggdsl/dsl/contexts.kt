@@ -58,6 +58,16 @@ abstract class BaseContext {
         )
     }
 
+    inline operator fun<reified DomainType : Any> ScalableAes.invoke(
+        sourceScaledDefault: SourceScaledUnspecifiedDefault<DomainType>
+    ) {
+        bindingCollectorAccessor.mappings[this] = ScaledUnspecifiedDefaultMapping(
+            this,
+            sourceScaledDefault,
+            typeOf<DomainType>()
+        )
+    }
+
     inline operator fun<reified DomainType : Any> ScalablePositionalAes.invoke(
         sourceScaledDefault: SourceScaledPositionalDefault<DomainType>
     ) {
