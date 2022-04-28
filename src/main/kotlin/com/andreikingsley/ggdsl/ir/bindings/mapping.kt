@@ -2,9 +2,6 @@ package com.andreikingsley.ggdsl.ir.bindings
 
 import com.andreikingsley.ggdsl.ir.data.DataSource
 import com.andreikingsley.ggdsl.ir.aes.*
-import com.andreikingsley.ggdsl.ir.scale.NonPositionalScale
-import com.andreikingsley.ggdsl.ir.scale.PositionalScale
-import com.andreikingsley.ggdsl.ir.scale.Scale
 import kotlin.reflect.KType
 
 sealed interface Mapping {
@@ -23,9 +20,25 @@ sealed interface ScaledMapping<DomainType: Any>: Mapping {
     val domainType: KType
 }
 
-data class ScaledDefaultMapping<DomainType: Any>(
+sealed interface ScaledDefaultMapping<DomainType: Any>: ScaledMapping<DomainType>{
+    override val sourceScaled: SourceScaledDefault<DomainType>
+}
+
+data class ScaledUnspecifiedDefaultMapping<DomainType: Any>(
     override val aes: ScalableAes,
-    override val sourceScaled: SourceScaledDefault<DomainType>,
+    override val sourceScaled: SourceScaledUnspecifiedDefault<DomainType>,
+    override val domainType: KType
+): ScaledMapping<DomainType>
+
+data class ScaledPositionalDefaultMapping<DomainType: Any>(
+    override val aes: ScalableAes,
+    override val sourceScaled: SourceScaledPositionalDefault<DomainType>,
+    override val domainType: KType
+): ScaledMapping<DomainType>
+
+data class ScaledNonPositionalDefaultMapping<DomainType: Any>(
+    override val aes: ScalableAes,
+    override val sourceScaled: SourceScaledNonPositionalDefault<DomainType>,
     override val domainType: KType
 ): ScaledMapping<DomainType>
 /*

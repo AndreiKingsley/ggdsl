@@ -8,10 +8,24 @@ sealed interface SourceScaled<DomainType: Any> {
     val scale: Scale
 }
 
-class SourceScaledDefault<DomainType: Any>(
-    override val source: DataSource<DomainType>,
+sealed interface SourceScaledDefault<DomainType: Any>: SourceScaled<DomainType> {
     override val scale: DefaultScale
-) : SourceScaled<DomainType>
+}
+
+class SourceScaledUnspecifiedDefault<DomainType: Any>(
+    override val source: DataSource<DomainType>,
+    override val scale: UnspecifiedDefaultScale
+): SourceScaled<DomainType>
+
+class SourceScaledPositionalDefault<DomainType: Any>(
+    override val source: DataSource<DomainType>,
+    override val scale: PositionalDefaultScale
+): SourceScaled<DomainType>
+
+class SourceScaledNonPositionalDefault<DomainType: Any>(
+    override val source: DataSource<DomainType>,
+    override val scale: NonPositionalDefaultScale
+): SourceScaled<DomainType>
 
 class SourceScaledPositional<DomainType: Any>(
     override val source: DataSource<DomainType>,

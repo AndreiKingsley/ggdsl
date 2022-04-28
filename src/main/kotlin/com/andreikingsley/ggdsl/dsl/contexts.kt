@@ -51,17 +51,27 @@ abstract class BaseContext {
     inline operator fun<reified DomainType : Any> ScalableAes.invoke(
         source: DataSource<DomainType>
     ) {
-        bindingCollectorAccessor.mappings[this] = ScaledDefaultMapping(
+        bindingCollectorAccessor.mappings[this] = ScaledUnspecifiedDefaultMapping(
             this,
             source.scaled(),
             typeOf<DomainType>()
         )
     }
 
-    inline operator fun<reified DomainType : Any> ScalableAes.invoke(
-        sourceScaledDefault: SourceScaledDefault<DomainType>
+    inline operator fun<reified DomainType : Any> ScalablePositionalAes.invoke(
+        sourceScaledDefault: SourceScaledPositionalDefault<DomainType>
     ) {
-        bindingCollectorAccessor.mappings[this] = ScaledDefaultMapping(
+        bindingCollectorAccessor.mappings[this] = ScaledPositionalDefaultMapping(
+            this,
+            sourceScaledDefault,
+            typeOf<DomainType>()
+        )
+    }
+
+    inline operator fun<reified DomainType : Any> MappableNonPositionalAes<*>.invoke(
+        sourceScaledDefault: SourceScaledNonPositionalDefault<DomainType>
+    ) {
+        bindingCollectorAccessor.mappings[this] = ScaledNonPositionalDefaultMapping(
             this,
             sourceScaledDefault,
             typeOf<DomainType>()
