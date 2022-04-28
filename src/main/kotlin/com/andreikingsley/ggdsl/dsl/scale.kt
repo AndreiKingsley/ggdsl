@@ -12,8 +12,8 @@ fun <DomainType : Any> continuousPos(limits: Pair<DomainType, DomainType>? = nul
 
 fun <DomainType : Any, RangeType : Any> continuous(
     domainLimits: Pair<DomainType, DomainType>? = null,
-    range: Pair<RangeType, RangeType>? = null,
-) = NonPositionalContinuousScale(domainLimits, range)
+    rangeLimits: Pair<RangeType, RangeType>? = null,
+) = NonPositionalContinuousScale(domainLimits, rangeLimits)
 
 fun <DomainType : Any> categoricalPos(categories: List<DomainType>? = null) =
     PositionalCategoricalScale(categories)
