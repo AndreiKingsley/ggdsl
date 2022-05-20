@@ -11,7 +11,7 @@ import kotlin.reflect.typeOf
 
 // TODO internal
 
-class BindingCollector internal constructor(){
+class BindingCollector internal constructor() {
     val mappings: MutableMap<Aes, Mapping> = mutableMapOf()
     val settings: MutableMap<Aes, Setting> = mutableMapOf()
     //val scales: MutableMap<Aes, Scale> = mutableMapOf()
@@ -38,17 +38,17 @@ abstract class BaseContext {
         bindingCollector.copyFrom(other.bindingCollector)
     }
 
-    operator fun<T: Any> NonPositionalAes<T>.invoke(value: T) {
+    operator fun <T : Any> NonPositionalAes<T>.invoke(value: T) {
         bindingCollector.settings[this] = NonPositionalSetting(this, value)
     }
 
-    inline operator fun<reified DomainType : Any> NonScalablePositionalAes.invoke(
+    inline operator fun <reified DomainType : Any> NonScalablePositionalAes.invoke(
         source: DataSource<DomainType>
     ) {
         bindingCollectorAccessor.mappings[this] = NonScalablePositionalMapping(this, source, typeOf<DomainType>())
     }
 
-    inline operator fun<reified DomainType : Any> ScalableAes.invoke(
+    inline operator fun <reified DomainType : Any> ScalableAes.invoke(
         source: DataSource<DomainType>
     ) {
         bindingCollectorAccessor.mappings[this] = ScaledUnspecifiedDefaultMapping(
@@ -58,7 +58,7 @@ abstract class BaseContext {
         )
     }
 
-    inline operator fun<reified DomainType : Any> ScalableAes.invoke(
+    inline operator fun <reified DomainType : Any> ScalableAes.invoke(
         sourceScaledDefault: SourceScaledUnspecifiedDefault<DomainType>
     ) {
         bindingCollectorAccessor.mappings[this] = ScaledUnspecifiedDefaultMapping(
@@ -68,7 +68,7 @@ abstract class BaseContext {
         )
     }
 
-    inline operator fun<reified DomainType : Any> ScalablePositionalAes.invoke(
+    inline operator fun <reified DomainType : Any> ScalablePositionalAes.invoke(
         sourceScaledDefault: SourceScaledPositionalDefault<DomainType>
     ) {
         bindingCollectorAccessor.mappings[this] = ScaledPositionalDefaultMapping(
@@ -78,7 +78,7 @@ abstract class BaseContext {
         )
     }
 
-    inline operator fun<reified DomainType : Any> MappableNonPositionalAes<*>.invoke(
+    inline operator fun <reified DomainType : Any> MappableNonPositionalAes<*>.invoke(
         sourceScaledDefault: SourceScaledNonPositionalDefault<DomainType>
     ) {
         bindingCollectorAccessor.mappings[this] = ScaledNonPositionalDefaultMapping(
@@ -88,7 +88,7 @@ abstract class BaseContext {
         )
     }
 
-    inline operator fun<reified DomainType : Any> ScalablePositionalAes.invoke(
+    inline operator fun <reified DomainType : Any> ScalablePositionalAes.invoke(
         sourceScaledPositional: SourceScaledPositional<DomainType>
     ) {
         bindingCollectorAccessor.mappings[this] = ScaledPositionalMapping(
@@ -98,7 +98,7 @@ abstract class BaseContext {
         )
     }
 
-    inline operator fun<reified DomainType : Any, reified RangeType: Any>
+    inline operator fun <reified DomainType : Any, reified RangeType : Any>
             MappableNonPositionalAes<RangeType>.invoke(
         sourceScaledNonPositional: SourceScaledNonPositional<DomainType, RangeType>
     ) {
@@ -214,7 +214,7 @@ class PointsContext(override var data: MutableNamedData) : LayerContext() {
     val symbol = SYMBOL
 }
 
-class LineContext (override var data: MutableNamedData) : LayerContext() {
+class LineContext(override var data: MutableNamedData) : LayerContext() {
     val color = COLOR
     val alpha = ALPHA
 
@@ -223,7 +223,7 @@ class LineContext (override var data: MutableNamedData) : LayerContext() {
     val lineType = LINE_TYPE
 }
 
-class BarsContext (override var data: MutableNamedData) : LayerContext() {
+class BarsContext(override var data: MutableNamedData) : LayerContext() {
     val color = COLOR
     val alpha = ALPHA
 

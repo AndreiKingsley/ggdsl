@@ -31,4 +31,4 @@ interface Color {
     }
 }
 //TODO
-class StandardColor internal constructor(val description: String) : Color
+data class StandardColor internal constructor(val description: String) : Color

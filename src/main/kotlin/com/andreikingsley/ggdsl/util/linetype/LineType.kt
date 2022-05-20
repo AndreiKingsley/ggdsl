@@ -10,4 +10,4 @@ interface LineType {
     }
 }
 
-class CommonLineType(val description: String): LineType
+data class CommonLineType(val description: String): LineType

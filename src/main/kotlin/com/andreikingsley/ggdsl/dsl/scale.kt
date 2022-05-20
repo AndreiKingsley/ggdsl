@@ -2,10 +2,10 @@ package com.andreikingsley.ggdsl.dsl
 
 import com.andreikingsley.ggdsl.ir.scale.*
 
-fun continuous() = NonPositionalContinuousDefaultScale()
-fun categorical() = NonPositionalCategoricalDefaultScale()
-fun continuousPos() = PositionalContinuousDefaultScale()
-fun categoricalPos() = PositionalCategoricalDefaultScale()
+fun continuous() = NonPositionalContinuousDefaultScale
+fun categorical() = NonPositionalCategoricalDefaultScale
+fun continuousPos() = PositionalContinuousDefaultScale
+fun categoricalPos() = PositionalCategoricalDefaultScale
 
 fun <DomainType : Any> continuousPos(limits: Pair<DomainType, DomainType>? = null) =
     PositionalContinuousScale(limits)

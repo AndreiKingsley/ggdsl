@@ -2,13 +2,13 @@ package com.andreikingsley.ggdsl.ir.scale
 
 sealed interface DefaultScale: Scale
 
-class UnspecifiedDefaultScale: DefaultScale
+object UnspecifiedDefaultScale: DefaultScale
 
 sealed interface PositionalDefaultScale: DefaultScale
 sealed interface NonPositionalDefaultScale: DefaultScale
 
-class PositionalContinuousDefaultScale: PositionalDefaultScale, ContinuousScale
-class PositionalCategoricalDefaultScale: PositionalDefaultScale, CategoricalScale
+object PositionalContinuousDefaultScale: PositionalDefaultScale, ContinuousScale
+object PositionalCategoricalDefaultScale: PositionalDefaultScale, CategoricalScale
 
-class NonPositionalContinuousDefaultScale: NonPositionalDefaultScale, ContinuousScale
-class NonPositionalCategoricalDefaultScale: NonPositionalDefaultScale, CategoricalScale
+object NonPositionalContinuousDefaultScale: NonPositionalDefaultScale, ContinuousScale
+object NonPositionalCategoricalDefaultScale: NonPositionalDefaultScale, CategoricalScale

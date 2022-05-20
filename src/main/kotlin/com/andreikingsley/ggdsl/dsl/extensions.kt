@@ -7,15 +7,14 @@ fun PlotContext.toPlot(): Plot {
     return Plot(data, layers, layout, /*collectorAccessor.mappings,*/features)
 }
 
-//todo remove>
-fun plot(dataset: NamedData, block: PlotContext.() -> Unit): Plot {
+inline fun plot(dataset: NamedData, block: PlotContext.() -> Unit): Plot {
     return PlotContext().apply{
         data = dataset.toMutableMap()
-        apply(block)
+        block()
     }.toPlot()
 }
 
-fun plot(block: PlotContext.() -> Unit): Plot {
+inline fun plot(block: PlotContext.() -> Unit): Plot {
     return PlotContext().apply(block).toPlot()
 }
 
@@ -37,7 +36,7 @@ operator fun <RangeType> Axis<RangeType>.invoke(block: Axis<RangeType>.() -> Uni
 
  */
 
-operator fun Layout.invoke(block: Layout.() -> Unit) {
+inline operator fun Layout.invoke(block: Layout.() -> Unit) {
     this.apply(block)
 }
 

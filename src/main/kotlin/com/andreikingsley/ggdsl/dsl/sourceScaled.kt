@@ -5,7 +5,7 @@ import com.andreikingsley.ggdsl.ir.data.DataSource
 import com.andreikingsley.ggdsl.ir.scale.*
 
 fun <DomainType : Any> DataSource<DomainType>.scaled() =
-    SourceScaledUnspecifiedDefault(this, UnspecifiedDefaultScale())
+    SourceScaledUnspecifiedDefault(this)
 
 fun <DomainType : Any> DataSource<DomainType>.scaled(scale: PositionalDefaultScale) =
     SourceScaledPositionalDefault(this, scale)
@@ -17,6 +17,6 @@ fun <DomainType : Any> DataSource<DomainType>.scaled(
     scale: PositionalScale<DomainType>
 ) = SourceScaledPositional(this, scale)
 
-fun <DomainType : Any, RangeType: Any> DataSource<DomainType>.scaled(
+fun <DomainType : Any, RangeType : Any> DataSource<DomainType>.scaled(
     scale: NonPositionalScale<DomainType, RangeType>
 ) = SourceScaledNonPositional(this, scale)
