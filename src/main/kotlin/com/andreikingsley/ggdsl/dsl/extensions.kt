@@ -3,21 +3,11 @@ package com.andreikingsley.ggdsl.dsl
 import com.andreikingsley.ggdsl.ir.*
 import com.andreikingsley.ggdsl.ir.data.NamedData
 
-fun PlotContext.toPlot(): Plot {
-    return Plot(data, layers, layout, /*collectorAccessor.mappings,*/features)
-}
-
-inline fun plot(dataset: NamedData, block: PlotContext.() -> Unit): Plot {
-    return PlotContext().apply{
-        data = dataset.toMutableMap()
-        block()
-    }.toPlot()
-}
-
-inline fun plot(block: PlotContext.() -> Unit): Plot {
-    return PlotContext().apply(block).toPlot()
-}
-
+/**
+ * Creates a new [Layer] from this [LayerContext]
+ *
+ * @return new [Plot]
+ */
 fun LayerContext.toLayer(geom: Geom): Layer {
     return Layer(
         data,

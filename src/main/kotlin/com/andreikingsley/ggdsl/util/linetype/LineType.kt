@@ -1,7 +1,8 @@
 package com.andreikingsley.ggdsl.util.linetype
 
-import javax.sound.sampled.Line
-
+/**
+ * Line type base interface.
+ */
 interface LineType {
     companion object {
         val SOLID = CommonLineType("solid")
@@ -10,4 +11,9 @@ interface LineType {
     }
 }
 
+/**
+ * Line type described by one string.
+ *
+ * @param description the string describing this line type.
+ */
 data class CommonLineType(val description: String): LineType

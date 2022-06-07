@@ -1,17 +1,30 @@
 package com.andreikingsley.ggdsl.ir.scale
 
-import kotlin.reflect.KType
+/**
+ * Positional scale interface. Positional scale is used in case
+ * of mapping to positional aesthetic attribute.
+ * It has an implicit range.
+ *
+ * @param DomainType the type of the domain.
+ */
+sealed interface PositionalScale<DomainType: Any>: Scale
 
-sealed interface PositionalScale<DomainType: Any>: Scale {
- //   val domainType: KType
-}
-
+/**
+ * Positional continuous scale.
+ *
+ * @param DomainType the type of the domain.
+ * @param limits the limits of the domain.
+ */
 data class PositionalContinuousScale<DomainType: Any>(
     val limits: Pair<DomainType, DomainType>? = null,
-   // override val domainType: KType,
 ): ContinuousScale, PositionalScale<DomainType>
 
+/**
+ * Positional categorical scale.
+ *
+ * @param DomainType the type of the domain.
+ * @param categories the list of the domain categories.
+ */
 data class PositionalCategoricalScale<DomainType: Any>(
     val categories: List<DomainType>? = null,
- //   override val domainType: KType,
 ): CategoricalScale, PositionalScale<DomainType>

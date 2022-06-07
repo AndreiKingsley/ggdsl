@@ -10,7 +10,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class BindingTest {
-    class TestContext() : BaseContext() {
+    class TestContext() : BaseBindingContext() {
         override var data: MutableNamedData = mutableMapOf()
     }
 
