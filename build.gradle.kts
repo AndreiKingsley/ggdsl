@@ -1,12 +1,13 @@
 plugins {
     kotlin("jvm") version "1.6.0"
     //id("org.jetbrains.kotlin.jupyter.api") version "0.11.0-62"
+    id("org.jetbrains.dokka") version "1.6.21"
     id("org.jetbrains.kotlin.jupyter.api") version "0.11.0-89-1"
     `maven-publish`
 }
 
 group = "com.andreikingsley"
-val ggDSLVersion = "0.6.5-1"
+val ggDSLVersion = "0.6.5-2"
 version = ggDSLVersion
 
 repositories {

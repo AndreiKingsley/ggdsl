@@ -6,5 +6,5 @@ package com.andreikingsley.ggdsl.ir.feature
  * @property featureName the name of feature
  */
 interface LayerFeature {
-    val featureName: FeatureName
+    val featureName: FeatureName // todo remove?
 }

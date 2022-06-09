@@ -26,14 +26,17 @@ class BindingCollector internal constructor() {
  * Base class for binding context.
  *
  * In this context, the mechanism of bindings, that is, mappings and settings, is defined.
- * TODO
+ * It is implemented with aesthetic attribute properties invocation with raw or scaled source as an argument.
+ *
+ * @property data the mutual dataset context.
  */
-
 abstract class BaseBindingContext {
     abstract var data: MutableNamedData
 
+    // TODO remove or make internal
     protected val bindingCollector = BindingCollector()
 
+    // TODO remove or make internal
     val bindingCollectorAccessor: BindingCollector
         get() = bindingCollector
 
@@ -42,10 +45,20 @@ abstract class BaseBindingContext {
         bindingCollector.copyFrom(other.bindingCollector)
     }
 
+    /**
+     * Setting, i.e. assigning some constant value to an non-positional aesthetic attribute.
+     *
+     * @param value the assigned value.
+     */
     operator fun <T : Any> NonPositionalAes<T>.invoke(value: T) {
         bindingCollector.settings[this] = NonPositionalSetting(this, value)
     }
 
+    /**
+     * Mapping to non-scalable ("sub-positional") aesthetic attribute.
+     *
+     * @param source the assigned raw data source.
+     */
     inline operator fun <reified DomainType : Any> NonScalablePositionalAes.invoke(
         source: DataSource<DomainType>
     ) {
@@ -53,6 +66,11 @@ abstract class BaseBindingContext {
             NonScalablePositionalMapping(this, source, typeOf<DomainType>())
     }
 
+    /**
+     * Mapping to an aesthetic attribute with default scale. TODO behavior
+     *
+     * @param source the assigned raw data source.
+     */
     inline operator fun <reified DomainType : Any> ScalableAes.invoke(
         source: DataSource<DomainType>
     ) {
@@ -63,6 +81,11 @@ abstract class BaseBindingContext {
         )
     }
 
+    /**
+     * Mapping to an aesthetic attribute with default scale. TODO behavior
+     *
+     * @param sourceScaledDefault the assigned source scaled default.
+     */
     inline operator fun <reified DomainType : Any> ScalableAes.invoke(
         sourceScaledDefault: SourceScaledUnspecifiedDefault<DomainType>
     ) {
@@ -73,6 +96,11 @@ abstract class BaseBindingContext {
         )
     }
 
+    /**
+     * Mapping to a positional aesthetic attribute with unspecified scale. TODO behavior
+     *
+     * @param sourceScaledDefault the assigned source scaled unspecified positional.
+     */
     inline operator fun <reified DomainType : Any> ScalablePositionalAes.invoke(
         sourceScaledDefault: SourceScaledPositionalDefault<DomainType>
     ) {
@@ -83,6 +111,11 @@ abstract class BaseBindingContext {
         )
     }
 
+    /**
+     * Mapping to a non-positional aesthetic attribute with unspecified scale. TODO behavior
+     *
+     * @param sourceScaledDefault the assigned source scaled unspecified non-positional.
+     */
     inline operator fun <reified DomainType : Any> MappableNonPositionalAes<*>.invoke(
         sourceScaledDefault: SourceScaledNonPositionalDefault<DomainType>
     ) {
@@ -93,6 +126,11 @@ abstract class BaseBindingContext {
         )
     }
 
+    /**
+     * Mapping to a positional aesthetic attribute.
+     *
+     * @param sourceScaledPositional the assigned source scaled positional.
+     */
     inline operator fun <reified DomainType : Any> ScalablePositionalAes.invoke(
         sourceScaledPositional: SourceScaledPositional<DomainType>
     ) {
@@ -103,6 +141,11 @@ abstract class BaseBindingContext {
         )
     }
 
+    /**
+     * Mapping to a non-positional aesthetic attribute. TODO behavior
+     *
+     * @param sourceScaledNonPositional the assigned source scaled non-positional.
+     */
     inline operator fun <reified DomainType : Any, reified RangeType : Any>
             MappableNonPositionalAes<RangeType>.invoke(
         sourceScaledNonPositional: SourceScaledNonPositional<DomainType, RangeType>
@@ -121,6 +164,11 @@ abstract class BaseBindingContext {
 
 }
 
+/**
+ * Layer context interface.
+ *
+ * todo
+ */
 abstract class LayerContext : BaseBindingContext() {
 
     // todo hide
