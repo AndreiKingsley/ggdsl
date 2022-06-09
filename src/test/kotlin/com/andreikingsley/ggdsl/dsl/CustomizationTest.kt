@@ -112,7 +112,7 @@ internal class CustomizationTest {
                                     )
                                 ),
                                 typeOf<String>(),
-                                typeOf<CustomGeomType>()
+                                //typeOf<CustomGeomType>()
                             )
                         ),
                         mapOf(),

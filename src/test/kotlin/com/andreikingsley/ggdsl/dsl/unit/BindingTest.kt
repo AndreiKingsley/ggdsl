@@ -151,7 +151,7 @@ internal class BindingTest {
                     mockAes,
                     mockSource.scaled(scale),
                     typeOf<Int>(),
-                    typeOf<Color>()
+                    //typeOf<Color>()
                 )
             ),
             context.bindingCollectorAccessor.mappings

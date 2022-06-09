@@ -114,5 +114,5 @@ data class ScaledNonPositionalMapping<DomainType: Any, RangeType: Any>(
     override val aes: MappableNonPositionalAes<RangeType>,
     override val sourceScaled: SourceScaledNonPositional<DomainType, RangeType>,
     override val domainType: KType,
-    val rangeType: KType,
+  //  val rangeType: KType,
 ): ScaledMapping<DomainType>

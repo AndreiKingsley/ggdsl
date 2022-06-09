@@ -124,7 +124,7 @@ internal class CommonTest {
                 )
             ),
             typeOf<String>(),
-            typeOf<Color>()
+            //typeOf<Color>()
         )
 
         assertEquals(

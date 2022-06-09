@@ -154,7 +154,7 @@ abstract class BaseBindingContext {
             this,
             sourceScaledNonPositional,
             typeOf<DomainType>(),
-            typeOf<RangeType>()
+           // typeOf<RangeType>()
         )
     }
 
